@@ -1,23 +1,35 @@
 ﻿using Xunit;
+using Xunit.Abstractions;
 
 namespace GameEngine.Tests
 {
-    public class GameStateShould
+    public class GameStateShould : IClassFixture<GameStateFixture>
     {
+        private readonly GameStateFixture gameStateFixture;//Member that contains the single game state instance.
+                                                           //The cost is incurred once instead of with each test execution
+        private readonly ITestOutputHelper output;
+
+        public GameStateShould(GameStateFixture gameStateFixture, ITestOutputHelper output)
+        {
+            this.gameStateFixture = gameStateFixture;
+            this.output = output;
+        }
+
         [Fact]
         public void DamageAllPlayersWhenEarthquake()
         {
-            var sut = new GameState();
+            output.WriteLine($"GameState ID={gameStateFixture.State.Id}");
 
             var player1 = new PlayerCharacter();
             var player2 = new PlayerCharacter();
 
-            sut.Players.Add(player1);
-            sut.Players.Add(player2);
+
+            gameStateFixture.State.Players.Add(player1);
+            gameStateFixture.State.Players.Add(player2);
 
             var expectedHealthAfterEarthquake = player1.Health - GameState.EarthquakeDamage;
 
-            sut.Earthquake();
+            gameStateFixture.State.Earthquake();
 
             Assert.Equal(expectedHealthAfterEarthquake, player1.Health);
             Assert.Equal(expectedHealthAfterEarthquake, player2.Health);
@@ -26,17 +38,17 @@ namespace GameEngine.Tests
         [Fact]
         public void Reset()
         {
-            var sut = new GameState();
+            output.WriteLine($"GameState ID={gameStateFixture.State.Id}");
 
             var player1 = new PlayerCharacter();
             var player2 = new PlayerCharacter();
 
-            sut.Players.Add(player1);
-            sut.Players.Add(player2);
+            gameStateFixture.State.Players.Add(player1);
+            gameStateFixture.State.Players.Add(player2);
 
-            sut.Reset();
+            gameStateFixture.State.Reset();
 
-            Assert.Empty(sut.Players);            
+            Assert.Empty(gameStateFixture.State.Players);            
         }
     }
 }
