@@ -69,5 +69,25 @@ namespace GameEngine.Tests
             Assert.NotSame(enemy1, enemy2);
 
         }
+        [Fact]
+        public void NotAllowNullName()
+        {
+            EnemyFactory sut = new();
+
+            //Assert.Throws<ArgumentNullException>(() => sut.Create(null));
+
+            //You can also specifiy the parameter you are passing 
+            Assert.Throws<ArgumentNullException>("name", () => sut.Create(null));
+        }
+        [Fact]
+        public void OnlyAllowKingOrQueenBossEnemies()
+        {
+            EnemyFactory sut = new();
+
+            //By assigning the result of the assert, we can further assert on the exception
+            EnemyCreationException ex = Assert.Throws<EnemyCreationException>(() => sut.Create("Zombie", true));
+
+            Assert.Equal("Zombie", ex.RequestedEnemyName);
+        }
     }
 }

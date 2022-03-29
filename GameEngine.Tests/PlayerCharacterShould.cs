@@ -144,6 +144,24 @@ namespace GameEngine.Tests
             PlayerCharacter sut = new();
             Assert.All(sut.Weapons, weapon => Assert.False(string.IsNullOrWhiteSpace(weapon)));//Asserts against each weapon in the collection
         }
+        [Fact]
+        public void RaiseSleptEvent()
+        {
+            PlayerCharacter sut = new();
+
+            Assert.Raises<EventArgs>(
+                handler => sut.PlayerSlept += handler,
+                handler => sut.PlayerSlept -= handler,
+                () => sut.Sleep());
+        }
+        [Fact]
+        public void RaisePropertyChangedEvent()
+        {
+            PlayerCharacter sut = new();
+
+            //Use the .PropertyChanged to test the INotifyPropertyChanged Interface of PlayerCharacter
+            Assert.PropertyChanged(sut, "Health", () => sut.TakeDamage(10));
+        }
 
 
     }
