@@ -167,7 +167,17 @@ namespace GameEngine.Tests
             //Use the .PropertyChanged to test the INotifyPropertyChanged Interface of PlayerCharacter
             Assert.PropertyChanged(sut, "Health", () => sut.TakeDamage(10));
         }
+        [Theory]
+        [InlineData(0,100)]
+        [InlineData(1, 99)]
+        [InlineData(50, 50)]
+        [InlineData(101, 1)]//Passes the parameters by position
+        public void TakeDamamge(int damage, int expectedHealth)
+        {
+            sut.TakeDamage(damage);
 
+            Assert.Equal(expectedHealth, sut.Health);
+        }
        
     }
 }
