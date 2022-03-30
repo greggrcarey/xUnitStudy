@@ -168,7 +168,7 @@ namespace GameEngine.Tests
             Assert.PropertyChanged(sut, "Health", () => sut.TakeDamage(10));
         }
         [Theory]
-        [MemberData(nameof(InternalHealthDamageTestData.TestData), MemberType = typeof(InternalHealthDamageTestData))]
+        [MemberData(nameof(ExternalHealthDamageTestData.TestData), MemberType = typeof(ExternalHealthDamageTestData))]
         public void TakeDamamge(int damage, int expectedHealth)
         {
             sut.TakeDamage(damage);
