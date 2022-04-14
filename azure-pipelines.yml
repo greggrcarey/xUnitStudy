@@ -36,6 +36,6 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
-    vsTestVersion: '16.0'
+    vsTestVersion: '15.0'
     codeCoverageEnabled: false
     diagnosticsEnabled: true
